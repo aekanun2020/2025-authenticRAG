@@ -55,3 +55,7 @@ export DASHSCOPE_API_KEY='your_api_key_here'
 # 5. ติดตั้ง Ollama ตาม https://ollama.com/download แล้วดาวน์โหลด BAAI/bge-m3 ด้วยคำสั่ง
 ollama pull bge-m3
 
+# 6. การนำเข้าเอกสาร อ่านต่อที่:  https://github.com/aekanun2020/2025-authenticRAG/blob/main/lab1-readme-from-text-to-vectordb.md
+
+# 7. การถาม ค้นหา วิเคราะห์ และสรุป อ่านต่อที่: https://github.com/aekanun2020/2025-authenticRAG/blob/main/lab2-readme-from-vectordb-to-final-answer.md
+
