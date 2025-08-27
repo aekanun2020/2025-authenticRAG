@@ -51,3 +51,7 @@ docker run -d \
 
 # 4. ตั้งค่า API Key สำหรับ DashScope (Qwen API)
 export DASHSCOPE_API_KEY='your_api_key_here'
+
+# 5. ติดตั้ง Ollama ตาม https://ollama.com/download แล้วดาวน์โหลด BAAI/bge-m3 ด้วยคำสั่ง
+ollama pull bge-m3
+
