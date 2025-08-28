@@ -28,7 +28,7 @@ conda create -n advrag python=3.10
 conda activate advrag
 
 # 2. ติดตั้ง dependencies
-pip install opensearchpy sentence-transformers llama-index llama-index-embeddings-huggingface openai tqdm
+pip install opensearch-py sentence-transformers llama-index llama-index-embeddings-huggingface openai tqdm
 
 pip install langchain
 
