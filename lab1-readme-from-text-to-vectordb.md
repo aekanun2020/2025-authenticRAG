@@ -219,6 +219,33 @@ curl -X GET "localhost:9200/_cat/indices?v"
 curl -X POST "localhost:9200/anthropic-*/_delete_by_query?pretty" \
   -H 'Content-Type: application/json' \
   -d '{"query": {"match_all": {}}}'
+
+# ดูเฉพาะ _id และ field หลัก
+curl -X GET "35.222.77.48:9200/anthropic-bm25-index/_search?pretty" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": {
+      "match_all": {}
+    },
+    "_source": ["title", "content"],
+    "size": 10
+  }'
+
+# แทนที่ "ACTUAL_DOCUMENT_ID" ด้วย ID ที่ได้จากการ search ข้างต้น
+curl -X POST "35.222.77.48:9200/anthropic-bm25-index/_termvectors/ACTUAL_DOCUMENT_ID?pretty" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fields": ["content", "title"],
+    "term_statistics": true,
+    "field_statistics": true,
+    "positions": true,
+    "offsets": true,
+    "filter": {
+      "max_num_terms": 100,
+      "min_term_freq": 1
+    }
+  }'
+
 ```
 
 ### ปัญหาที่พบบ่อย
