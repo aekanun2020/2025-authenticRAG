@@ -211,7 +211,7 @@ if __name__ == "__main__":
 ## การ Debug
 
 ### ตรวจสอบ OpenSearch
-```bash
+
 # ดู indices ทั้งหมด
 curl -X GET "localhost:9200/_cat/indices?v"
 
