@@ -65,9 +65,8 @@ python onlysearchAuthenticRAG.py
 
 อ่านต่อที่: https://github.com/aekanun2020/2025-authenticRAG/blob/main/lab2-readme-from-vectordb-to-final-answer.md
 
-# 8. กรณีมีปัญหาโปรดตรวจสอบวิธีการแก้ไขต่อไปนี้
-- ปัญหา error เกี่ยวกับ langchain ลองแก้ไขด้วย:
 ```bash
+# 8. ปัญหา error เกี่ยวกับ langchain ลองแก้ไขด้วย:
 pip uninstall langchain langchain-core langchain-community -y
 pip install langchain==0.0.354
 ```
