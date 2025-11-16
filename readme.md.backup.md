@@ -24,8 +24,6 @@ project_root/
 
 ```bash
 # 1. สร้างสภาพแวดล้อมใหม่ด้วย Conda
-** กรณียังไม่มี conda โปรดติดตั้งตาม link ต่อไปนี้ก่อน https://www.anaconda.com/docs/getting-started/miniconda/install#quickstart-install-instructions
-
 conda create -n advrag python=3.10
 conda activate advrag
 
@@ -64,10 +62,3 @@ python onlysearchAuthenticRAG.py
 ```
 
 อ่านต่อที่: https://github.com/aekanun2020/2025-authenticRAG/blob/main/lab2-readme-from-vectordb-to-final-answer.md
-
-# 8. กรณีมีปัญหาโปรดตรวจสอบวิธีการแก้ไขต่อไปนี้
-- ปัญหา error เกี่ยวกับ langchain ลองแก้ไขด้วย:
-```bash
-pip uninstall langchain langchain-core langchain-community -y
-pip install langchain==0.0.354
-```
