@@ -1,0 +1,9 @@
+#pip install -r requirements.txt
+opensearch-py==3.0.0
+sentence-transformers==5.1.2
+llama-index==0.14.8
+llama-index-embeddings-huggingface==0.6.1
+openai==2.8.1
+tqdm==4.67.1
+langchain==1.0.7
+langchain-community==0.4.1
