@@ -8,7 +8,7 @@
 - Python 3.10 ขึ้นไป
 - Docker Desktop for Windows
 - RAM 8GB ขึ้นไป (แนะนำ)
-- API Key สำหรับ OpenRouter (เรียกโมเดล Qwen ผ่าน OpenRouter) สมัครได้ที่ https://openrouter.ai/keys
+- API Key สำหรับ DashScope (Qwen API)
 - Ollama
 
 ## โครงสร้างโฟลเดอร์
@@ -95,19 +95,19 @@ docker network create opensearch-net
 docker run -d --name opensearch -p 9200:9200 -p 9600:9600 -e "discovery.type=single-node" -e "DISABLE_SECURITY_PLUGIN=true" -e "network.host=0.0.0.0" opensearchproject/opensearch:2.19.1
 ```
 
-### 4. ตั้งค่า API Key สำหรับ OpenRouter
+### 4. ตั้งค่า API Key สำหรับ DashScope
 
 **ใน Command Prompt:**
 ```cmd
-set OPENROUTER_API_KEY=your_api_key_here
+set DASHSCOPE_API_KEY=your_api_key_here
 ```
 
 **ใน PowerShell:**
 ```powershell
-$env:OPENROUTER_API_KEY="your_api_key_here"
+$env:DASHSCOPE_API_KEY="your_api_key_here"
 ```
 
-**เพื่อให้ API Key คงอยู่ถาวร:** ไปที่ System Properties → Environment Variables → เพิ่ม User Variable ชื่อ `OPENROUTER_API_KEY` พร้อมค่า API Key ของคุณ
+**เพื่อให้ API Key คงอยู่ถาวร:** ไปที่ System Properties → Environment Variables → เพิ่ม User Variable ชื่อ `DASHSCOPE_API_KEY` พร้อมค่า API Key ของคุณ
 
 ### 5. ติดตั้ง Ollama และโมเดล BGE-M3
 
@@ -153,8 +153,8 @@ pip install langchain==0.0.354
 | แตกไฟล์ ZIP | คลิกขวา → Extract All หรือใช้ `Expand-Archive` |
 | เข้าโฟลเดอร์โปรเจกต์ | `cd C:\path\to\authenticRAG` |
 | ตั้งค่า Environment Variable (ถาวร) | ตั้งค่าผ่าน System Properties → Environment Variables |
-| ตั้งค่า API Key ชั่วคราว (CMD) | `set OPENROUTER_API_KEY=your_key` |
-| ตั้งค่า API Key ชั่วคราว (PowerShell) | `$env:OPENROUTER_API_KEY="your_key"` |
+| ตั้งค่า API Key ชั่วคราว (CMD) | `set DASHSCOPE_API_KEY=your_key` |
+| ตั้งค่า API Key ชั่วคราว (PowerShell) | `$env:DASHSCOPE_API_KEY="your_key"` |
 | เช็ค Docker Network | `docker network ls` |
 | เช็คสถานะ OpenSearch | `docker ps` |
 

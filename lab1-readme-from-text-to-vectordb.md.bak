@@ -25,7 +25,7 @@ docker run -d -p 9200:9200 -p 9600:9600 \
 
 ### 2. ตั้งค่า API Key
 ```bash
-export OPENROUTER_API_KEY="your-api-key-here"
+export DASHSCOPE_API_KEY="your-api-key-here"
 ```
 
 ### 3. เตรียมเอกสาร
@@ -168,9 +168,9 @@ Input Documents → Split into Chunks → Generate Context for Each Chunk
 ```python
 def main():
     # ตรวจสอบ API key
-    if "OPENROUTER_API_KEY" not in os.environ:
-        print("Error: OPENROUTER_API_KEY environment variable is not set")
-        print("Please set it with: export OPENROUTER_API_KEY='your_api_key_here'")
+    if "DASHSCOPE_API_KEY" not in os.environ:
+        print("Error: DASHSCOPE_API_KEY environment variable is not set")
+        print("Please set it with: export DASHSCOPE_API_KEY='your_api_key_here'")
         return
 
     # ดาวน์โหลด corpus

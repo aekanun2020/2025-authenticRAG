@@ -21,14 +21,14 @@ from langchain_core.documents import Document as LangchainDocument
 class AnthropicStyleContextualRAG:
     def __init__(self, opensearch_host="localhost", opensearch_port=9200):
         # รับ API key จาก environment variable
-        self.api_key = os.environ.get("DASHSCOPE_API_KEY")
+        self.api_key = os.environ.get("OPENROUTER_API_KEY")
         if not self.api_key:
-            raise ValueError("DASHSCOPE_API_KEY environment variable not set")
+            raise ValueError("OPENROUTER_API_KEY environment variable not set")
         
-        # สร้าง OpenAI client ที่ใช้เรียก Qwen API
+        # สร้าง OpenAI client ที่ใช้เรียก Qwen API ผ่าน OpenRouter
         self.client = OpenAI(
             api_key=self.api_key,
-            base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+            base_url="https://openrouter.ai/api/v1"
         )
         
         # ตั้งค่า embedding model
@@ -116,7 +116,7 @@ class AnthropicStyleContextualRAG:
         """เรียกใช้ Qwen API เพื่อสร้างข้อความ"""
         try:
             completion = self.client.chat.completions.create(
-                model="qwen2.5-32b-instruct",
+                model="qwen/qwen-2.5-32b-instruct",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
@@ -421,9 +421,9 @@ def download_corpus():
 # ฟังก์ชันหลักสำหรับรันระบบ
 def main():
     # ตรวจสอบ API key
-    if "DASHSCOPE_API_KEY" not in os.environ:
-        print("Error: DASHSCOPE_API_KEY environment variable is not set")
-        print("Please set it with: export DASHSCOPE_API_KEY='your_api_key_here'")
+    if "OPENROUTER_API_KEY" not in os.environ:
+        print("Error: OPENROUTER_API_KEY environment variable is not set")
+        print("Please set it with: export OPENROUTER_API_KEY='your_api_key_here'")
         return
 
     # ดาวน์โหลด corpus

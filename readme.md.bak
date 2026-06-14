@@ -7,7 +7,7 @@
 - Python 3.10+
 - Docker Desktop
 - RAM 8GB+ (แนะนำ)
-- API Key สำหรับ OpenRouter (เรียกโมเดล Qwen ผ่าน OpenRouter) สมัครได้ที่ https://openrouter.ai/keys
+- API Key สำหรับ DashScope (Qwen API)
 - Ollama
 
 ## โครงสร้างโฟลเดอร์
@@ -46,8 +46,8 @@ docker run -d \
   -e "network.host=0.0.0.0" \
   opensearchproject/opensearch:2.19.1
 
-# 4. ตั้งค่า API Key สำหรับ OpenRouter (ใช้เรียกโมเดล qwen/qwen-2.5-32b-instruct)
-export OPENROUTER_API_KEY='your_api_key_here'
+# 4. ตั้งค่า API Key สำหรับ DashScope (Qwen API)
+export DASHSCOPE_API_KEY='your_api_key_here'
 
 # 5. ติดตั้ง Ollama ตาม https://ollama.com/download แล้วดาวน์โหลด BAAI/bge-m3 ด้วยคำสั่ง
 ollama pull bge-m3
