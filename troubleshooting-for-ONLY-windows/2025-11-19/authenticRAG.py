@@ -116,7 +116,7 @@ class AnthropicStyleContextualRAG:
         """เรียกใช้ Qwen API เพื่อสร้างข้อความ"""
         try:
             completion = self.client.chat.completions.create(
-                model="qwen/qwen-2.5-32b-instruct",
+                model="qwen/qwen3-32b",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
