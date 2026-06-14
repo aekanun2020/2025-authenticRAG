@@ -46,7 +46,7 @@ docker run -d \
   -e "network.host=0.0.0.0" \
   opensearchproject/opensearch:2.19.1
 
-# 4. ตั้งค่า API Key สำหรับ OpenRouter (ใช้เรียกโมเดล qwen/qwen3-32b)
+# 4. ตั้งค่า API Key สำหรับ OpenRouter (ใช้เรียกโมเดล qwen/qwen-2.5-72b-instruct)
 export OPENROUTER_API_KEY='your_api_key_here'
 
 # 5. ติดตั้ง Ollama ตาม https://ollama.com/download แล้วดาวน์โหลด BAAI/bge-m3 ด้วยคำสั่ง

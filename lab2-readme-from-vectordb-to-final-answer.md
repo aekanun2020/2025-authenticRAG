@@ -210,4 +210,4 @@ rag.export_results_to_json(results, "output.json")
 ## Requirements
 - OpenSearch ต้อง running และมีข้อมูล indexed แล้ว
 - ใช้ indices เดียวกับ authenticRAG.py
-- OPENROUTER_API_KEY สำหรับ answer generation (เรียกโมเดล qwen/qwen3-32b ผ่าน OpenRouter)
+- OPENROUTER_API_KEY สำหรับ answer generation (เรียกโมเดล qwen/qwen-2.5-72b-instruct ผ่าน OpenRouter)
