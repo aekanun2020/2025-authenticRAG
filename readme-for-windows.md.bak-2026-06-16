@@ -35,14 +35,30 @@ project_root/
 
 **วิธีที่ 2: ใช้ Git (สำหรับผู้ที่มี Git ติดตั้งอยู่แล้ว)**
 
-เปิด Command Prompt แล้วรัน:
+เปิด Command Prompt หรือ PowerShell แล้วรัน:
 
 ```bash
 git clone https://github.com/aekanun2020/2025-authenticRAG.git
 cd 2025-authenticRAG
 ```
 
-**หลังจากแตกไฟล์แล้ว** ให้เปิด Command Prompt และเข้าไปในโฟลเดอร์โปรเจกต์:
+**วิธีที่ 3: ดาวน์โหลดด้วย PowerShell**
+
+เปิด PowerShell และรันคำสั่ง:
+
+```powershell
+# ดาวน์โหลดไฟล์ ZIP
+Invoke-WebRequest -Uri "https://github.com/aekanun2020/2025-authenticRAG/archive/refs/heads/main.zip" -OutFile "authenticRAG.zip"
+
+# แตกไฟล์ ZIP
+Expand-Archive -Path "authenticRAG.zip" -DestinationPath "." -Force
+
+# เปลี่ยนชื่อโฟลเดอร์และเข้าไปในโฟลเดอร์
+Rename-Item -Path "2025-authenticRAG-main" -NewName "authenticRAG"
+cd authenticRAG
+```
+
+**หลังจากแตกไฟล์แล้ว** ให้เปิด Command Prompt หรือ PowerShell และเข้าไปในโฟลเดอร์โปรเจกต์:
 
 ```bash
 cd C:\path\to\authenticRAG
@@ -63,18 +79,17 @@ conda activate advrag
 
 ```bash
 pip install opensearch-py sentence-transformers llama-index llama-index-embeddings-huggingface openai tqdm
-pip install langchain==0.1.6 langchain-community==0.0.19 langchain-core==0.1.23
+pip install langchain
+pip install langchain_community
 ```
-
-**สำคัญสำหรับ Windows:** เวอร์ชันด้านบนถูก pin ไว้เพื่อหลีกเลี่ยง bug `ModuleNotFoundError: No module named 'pwd'` ที่เกิดใน `langchain-community==0.0.20` ขึ้นไป — `pwd` เป็น Unix-only module ไม่มีบน Windows
 
 ### 3. ติดตั้งและรัน OpenSearch ด้วย Docker
 
 **หมายเหตุ:** ตรวจสอบว่าเปิด Docker Desktop แล้ว
 
-เปิด **Command Prompt** แล้วรันคำสั่ง:
+เปิด **PowerShell** หรือ **Command Prompt** แล้วรันคำสั่ง:
 
-```bash
+```powershell
 docker network create opensearch-net
 
 docker run -d --name opensearch -p 9200:9200 -p 9600:9600 -e "discovery.type=single-node" -e "DISABLE_SECURITY_PLUGIN=true" -e "network.host=0.0.0.0" opensearchproject/opensearch:2.19.1
@@ -87,13 +102,18 @@ docker run -d --name opensearch -p 9200:9200 -p 9600:9600 -e "discovery.type=sin
 set OPENROUTER_API_KEY=your_api_key_here
 ```
 
+**ใน PowerShell:**
+```powershell
+$env:OPENROUTER_API_KEY="your_api_key_here"
+```
+
 **เพื่อให้ API Key คงอยู่ถาวร:** ไปที่ System Properties → Environment Variables → เพิ่ม User Variable ชื่อ `OPENROUTER_API_KEY` พร้อมค่า API Key ของคุณ
 
 ### 5. ติดตั้ง Ollama และโมเดล BGE-M3
 
 1. ดาวน์โหลด Ollama สำหรับ Windows จาก https://ollama.com/download
 2. ติดตั้งและเปิดโปรแกรม
-3. เปิด Command Prompt แล้วรัน:
+3. เปิด Command Prompt หรือ PowerShell แล้วรัน:
 
 ```bash
 ollama pull bge-m3
@@ -117,23 +137,24 @@ python onlysearchAuthenticRAG.py
 
 **อ่านเพิ่มเติม:** [lab2-readme-from-vectordb-to-final-answer.md](lab2-readme-from-vectordb-to-final-answer.md)
 
-### 8. แก้ไขปัญหา `ModuleNotFoundError: No module named 'pwd'` (Windows)
+### 8. แก้ไขปัญหา Error ของ langchain
 
-หากพบ error นี้ขณะรัน `python authenticRAG.py` แสดงว่าเวอร์ชันของ `langchain-community` ที่ติดตั้งอยู่มี bug ที่ import module `pwd` (ซึ่งเป็น Unix-only) โดยตรง — ให้รันคำสั่งด้านล่างเพื่อ uninstall แล้วติดตั้งเวอร์ชันที่ใช้ได้บน Windows:
+หากพบปัญหาเกี่ยวกับ langchain ให้รัน:
 
 ```bash
 pip uninstall langchain langchain-core langchain-community -y
-pip install langchain==0.1.6 langchain-community==0.0.19 langchain-core==0.1.23
+pip install langchain==0.0.354
 ```
 
 ## สรุปคำสั่งสำคัญ
 
 | ขั้นตอน | คำสั่ง Windows |
 |---------|----------------|
-| แตกไฟล์ ZIP | คลิกขวา → Extract All |
+| แตกไฟล์ ZIP | คลิกขวา → Extract All หรือใช้ `Expand-Archive` |
 | เข้าโฟลเดอร์โปรเจกต์ | `cd C:\path\to\authenticRAG` |
 | ตั้งค่า Environment Variable (ถาวร) | ตั้งค่าผ่าน System Properties → Environment Variables |
-| ตั้งค่า API Key ชั่วคราว | `set OPENROUTER_API_KEY=your_key` |
+| ตั้งค่า API Key ชั่วคราว (CMD) | `set OPENROUTER_API_KEY=your_key` |
+| ตั้งค่า API Key ชั่วคราว (PowerShell) | `$env:OPENROUTER_API_KEY="your_key"` |
 | เช็ค Docker Network | `docker network ls` |
 | เช็คสถานะ OpenSearch | `docker ps` |
 
@@ -141,6 +162,7 @@ pip install langchain==0.1.6 langchain-community==0.0.19 langchain-core==0.1.23
 
 - **ตรวจสอบโฟลเดอร์ที่แตกไฟล์:** หลังแตก ZIP ให้แน่ใจว่าเข้าไปในโฟลเดอร์ที่มีไฟล์ `authenticRAG.py`
 - ใช้ **Anaconda Prompt** สำหรับคำสั่ง Python และ Conda
-- ใช้ **Command Prompt** สำหรับคำสั่ง Docker
+- ใช้ **PowerShell** หรือ **Command Prompt** สำหรับคำสั่ง Docker
+- หากใช้ PowerShell อาจต้องเปิดใช้งาน execution policy: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
 - ตรวจสอบว่า Docker Desktop รันอยู่ก่อนใช้คำสั่ง Docker ทุกครั้ง
 - หาก Windows Defender หรือ Antivirus บล็อกการแตกไฟล์ ให้อนุญาตชั่วคราว
