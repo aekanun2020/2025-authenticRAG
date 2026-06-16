@@ -212,11 +212,8 @@ if __name__ == "__main__":
 
 ### ตรวจสอบ OpenSearch
 
-> **หมายเหตุสำหรับ Windows:** คำสั่ง curl ในแต่ละหัวข้อจะแสดง 2 แบบ — **Linux/macOS** ใช้ backslash (`\`) ขึ้นบรรทัดใหม่และ single quote (`'`) รอบ JSON  ส่วน **Windows (Command Prompt)** ต้องเขียนบรรทัดเดียว และ escape double quote ด้วย `\"`
-
 #### คำสั่งทั่วไป
 
-**Linux / macOS:**
 ```bash
 # ดู indices ทั้งหมด (ทั้ง dense และ sparse)
 curl -X GET "localhost:9200/_cat/indices?v"
@@ -227,18 +224,8 @@ curl -X POST "localhost:9200/anthropic-*/_delete_by_query?pretty" \
   -d '{"query": {"match_all": {}}}'
 ```
 
-**Windows (Command Prompt):**
-```cmd
-REM ดู indices ทั้งหมด (ไม่มี JSON body — ใช้ได้เหมือน Linux)
-curl -X GET "localhost:9200/_cat/indices?v"
-
-REM ลบข้อมูลเก่าของทั้งสอง indices
-curl -X POST "localhost:9200/anthropic-*/_delete_by_query?pretty" -H "Content-Type: application/json" -d "{\"query\": {\"match_all\": {}}}"
-```
-
 #### Sparse (BM25) Index — `anthropic-bm25-index`
 
-**Linux / macOS:**
 ```bash
 # ดู documents ใน BM25 index (แสดง _id และ field หลัก)
 curl -X GET "localhost:9200/anthropic-bm25-index/_search?pretty" \
@@ -285,24 +272,8 @@ curl -X GET "localhost:9200/anthropic-bm25-index/_search?pretty" \
   }'
 ```
 
-**Windows (Command Prompt):**
-```cmd
-REM ดู documents ใน BM25 index (แสดง _id และ field หลัก)
-curl -X GET "localhost:9200/anthropic-bm25-index/_search?pretty" -H "Content-Type: application/json" -d "{\"query\":{\"match_all\":{}},\"_source\":[\"doc_id\",\"chunk_id\",\"content\",\"contextualized_content\"],\"size\":10}"
-
-REM ดู mapping ของ BM25 index (ไม่มี JSON body — ใช้ได้เหมือน Linux)
-curl -X GET "localhost:9200/anthropic-bm25-index/_mapping?pretty"
-
-REM ดู term vectors ของ chunk ที่ระบุ (แทน "doc_0" ด้วย _id ที่ได้จาก search)
-curl -X POST "localhost:9200/anthropic-bm25-index/_termvectors/doc_0?pretty" -H "Content-Type: application/json" -d "{\"fields\":[\"content\",\"contextualized_content\"],\"term_statistics\":true,\"field_statistics\":true,\"positions\":true,\"offsets\":true,\"filter\":{\"max_num_terms\":100,\"min_term_freq\":1}}"
-
-REM ทดสอบ BM25 search ด้วยคำถาม (multi_match บน content + contextualized_content)
-curl -X GET "localhost:9200/anthropic-bm25-index/_search?pretty" -H "Content-Type: application/json" -d "{\"query\":{\"multi_match\":{\"query\":\"อาการของหัดเยอรมัน\",\"fields\":[\"content\",\"contextualized_content\"],\"type\":\"best_fields\"}},\"size\":5}"
-```
-
 #### Dense (Vector) Index — `anthropic-vector-index`
 
-**Linux / macOS:**
 ```bash
 # ดู documents ใน vector index (ไม่ดึง embedding มาเพราะยาว — 1024 มิติ)
 curl -X GET "localhost:9200/anthropic-vector-index/_search?pretty" \
@@ -323,21 +294,6 @@ curl -X GET "localhost:9200/anthropic-vector-index/_count?pretty"
 
 # ดึง embedding ของ chunk ที่ระบุ (แทน "doc_0" ด้วย _id ที่ต้องการ)
 # ผลลัพธ์จะยาวมาก — ใช้ตรวจว่า embedding ถูกเก็บจริง
-curl -X GET "localhost:9200/anthropic-vector-index/_doc/doc_0?pretty"
-```
-
-**Windows (Command Prompt):**
-```cmd
-REM ดู documents ใน vector index (ไม่ดึง embedding มาเพราะยาว — 1024 มิติ)
-curl -X GET "localhost:9200/anthropic-vector-index/_search?pretty" -H "Content-Type: application/json" -d "{\"query\":{\"match_all\":{}},\"_source\":[\"doc_id\",\"chunk_id\",\"content\"],\"size\":10}"
-
-REM ดู mapping ของ vector index (knn_vector dimension, similarity)
-curl -X GET "localhost:9200/anthropic-vector-index/_mapping?pretty"
-
-REM นับจำนวน documents ใน vector index
-curl -X GET "localhost:9200/anthropic-vector-index/_count?pretty"
-
-REM ดึง embedding ของ chunk ที่ระบุ (แทน "doc_0" ด้วย _id ที่ต้องการ)
 curl -X GET "localhost:9200/anthropic-vector-index/_doc/doc_0?pretty"
 ```
 
