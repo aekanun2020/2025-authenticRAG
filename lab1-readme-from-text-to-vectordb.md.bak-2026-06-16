@@ -212,41 +212,30 @@ if __name__ == "__main__":
 
 ### ตรวจสอบ OpenSearch
 
-#### คำสั่งทั่วไป
-
-```bash
-# ดู indices ทั้งหมด (ทั้ง dense และ sparse)
+# ดู indices ทั้งหมด
 curl -X GET "localhost:9200/_cat/indices?v"
 
-# ลบข้อมูลเก่าของทั้งสอง indices
+# ลบข้อมูลเก่า
 curl -X POST "localhost:9200/anthropic-*/_delete_by_query?pretty" \
   -H 'Content-Type: application/json' \
   -d '{"query": {"match_all": {}}}'
-```
 
-#### Sparse (BM25) Index — `anthropic-bm25-index`
-
-```bash
-# ดู documents ใน BM25 index (แสดง _id และ field หลัก)
-curl -X GET "localhost:9200/anthropic-bm25-index/_search?pretty" \
+# ดูเฉพาะ _id และ field หลัก
+curl -X GET "35.222.77.48:9200/anthropic-bm25-index/_search?pretty" \
   -H "Content-Type: application/json" \
   -d '{
     "query": {
       "match_all": {}
     },
-    "_source": ["doc_id", "chunk_id", "content", "contextualized_content"],
+    "_source": ["title", "content"],
     "size": 10
   }'
 
-# ดู mapping ของ BM25 index (analyzer, field types)
-curl -X GET "localhost:9200/anthropic-bm25-index/_mapping?pretty"
-
-# ดู term vectors ของ chunk ที่ระบุ (แทนที่ "doc_0" ด้วย _id ที่ได้จาก search ข้างต้น)
-# ใช้ตรวจสอบ doc_freq, term_freq, ttf — ข้อมูลที่ใช้คำนวณ IDF
-curl -X POST "localhost:9200/anthropic-bm25-index/_termvectors/doc_0?pretty" \
+# แทนที่ "ACTUAL_DOCUMENT_ID" ด้วย ID ที่ได้จากการ search ข้างต้น
+curl -X POST "35.222.77.48:9200/anthropic-bm25-index/_termvectors/ACTUAL_DOCUMENT_ID?pretty" \
   -H "Content-Type: application/json" \
   -d '{
-    "fields": ["content", "contextualized_content"],
+    "fields": ["content", "title"],
     "term_statistics": true,
     "field_statistics": true,
     "positions": true,
@@ -257,46 +246,7 @@ curl -X POST "localhost:9200/anthropic-bm25-index/_termvectors/doc_0?pretty" \
     }
   }'
 
-# ทดสอบ BM25 search ด้วยคำถาม (multi_match บน content + contextualized_content)
-curl -X GET "localhost:9200/anthropic-bm25-index/_search?pretty" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": {
-      "multi_match": {
-        "query": "อาการของหัดเยอรมัน",
-        "fields": ["content", "contextualized_content"],
-        "type": "best_fields"
-      }
-    },
-    "size": 5
-  }'
 ```
-
-#### Dense (Vector) Index — `anthropic-vector-index`
-
-```bash
-# ดู documents ใน vector index (ไม่ดึง embedding มาเพราะยาว — 1024 มิติ)
-curl -X GET "localhost:9200/anthropic-vector-index/_search?pretty" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": {
-      "match_all": {}
-    },
-    "_source": ["doc_id", "chunk_id", "content"],
-    "size": 10
-  }'
-
-# ดู mapping ของ vector index (knn_vector dimension, similarity)
-curl -X GET "localhost:9200/anthropic-vector-index/_mapping?pretty"
-
-# นับจำนวน documents ใน vector index
-curl -X GET "localhost:9200/anthropic-vector-index/_count?pretty"
-
-# ดึง embedding ของ chunk ที่ระบุ (แทน "doc_0" ด้วย _id ที่ต้องการ)
-# ผลลัพธ์จะยาวมาก — ใช้ตรวจว่า embedding ถูกเก็บจริง
-curl -X GET "localhost:9200/anthropic-vector-index/_doc/doc_0?pretty"
-```
-
 
 ### ปัญหาที่พบบ่อย
 
